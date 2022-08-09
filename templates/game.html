@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tic Tac Toe</title>
+        <style>
+            body {
+                margin: 0 auto;
+            }
+            .wrapper {
+                width: 500px;
+                height: 100vh;
+                text-align: center;
+                margin: 0 auto;
+                background-color: rgb(237, 237, 237);
+            }
+            table {
+                border-collapse: collapse;
+                margin: 0 auto;
+                background-color: white;
+            }
+            td {
+                border: 1px solid black;
+                width: 150px;
+                height: 150px;
+                font-size: 30px;
+                text-align: center;
+            }
+            td > a {
+                font-size: 18px;
+            }
+
+            a {
+                text-decoration: none;
+                color: black;
+            }
+            
+            .container {
+                width: 460px;
+                /* background-color: aqua; */
+                margin: 0 auto;
+                padding-top: 30px;
+            }
+            .left {
+                float: left;
+                /* background-color: blueviolet; */
+                margin-top: 0;
+            }
+            .right {
+                float: right;
+                /* background-color: red; */
+            }
+            .clear {
+                clear: both;
+            }
+
+            .button {
+                width: 150px;
+                height: 50px;
+                border: 0;
+                background-color: #C0C0C0;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrapper">
+            <h1>Tic Tac Toe</h1>
+            {% if tie %}
+                <h3>It's a tie!</h3>
+            {% elif winner %}
+                <h3>{{ winner }} wins</h3>
+            {% else %}
+                <h3>Now is {{ turn }}'s turn</h3>
+            {% endif %}
+            <table>
+                {% for i in range(3) %}
+                    <tr>
+                        {% for j in range(3) %}
+                            <td>
+                                {% if game[i][j] %}
+                                    {{ game[i][j] }}
+                                {% elif gameover %}
+                                    <a href="{{ url_for('reset') }}">Start new game</a>
+                                {% else %}
+                                    <a href="{{ url_for('play', row=i, col=j) }}">Play {{ turn }} here</a>
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+            
+            <div class="container">
+                <button class="button left"><a href="{{ url_for('reset') }}">Reset game</a></button>
+                {% if moves and (moves > 0) and (moves < 9) %}
+                    <button class="button right"><a href="{{ url_for('back') }}">Step back</a></button>
+                {% endif %}
+            </div>
+            <div class="clear"></div>
+        </div>
+    </body>
+</html>
